@@ -1,0 +1,15 @@
+
+FROM mysql:8.0
+
+
+ENV MYSQL_ROOT_PASSWORD=root
+ENV MYSQL_DATABASE=martinez-rodriguez
+
+
+COPY 1-crear_bd.sql /docker-entrypoint-initdb.d/
+COPY 2-crear_tablas.sql /docker-entrypoint-initdb.d/
+COPY 3-crear_relaciones.sql /docker-entrypoint-initdb.d/
+COPY 4-insertar_registros.sql /docker-entrypoint-initdb.d/
+
+
+EXPOSE 3306

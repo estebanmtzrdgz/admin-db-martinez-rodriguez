@@ -1,0 +1,52 @@
+Table clientes {
+  id_cliente int [pk, increment]
+  rut_dni varchar(20) [unique, not null]
+  nombre_completo varchar(150) [not null]
+  telefono varchar(20)
+  email varchar(100)
+}
+
+Table mascotas {
+  id_mascota int [pk, increment]
+  nombre varchar(100) [not null]
+  especie varchar(50) [not null]
+  raza varchar(50)
+  fecha_nacimiento date
+  id_cliente int [not null, ref: > clientes.id_cliente]
+}
+
+Table veterinarios {
+  id_veterinario int [pk, increment]
+  documento_identidad varchar(15) [unique, not null]
+  nombre_completo varchar(150) [not null]
+  especialidad varchar(100)
+  telefono varchar(20)
+}
+
+Table atenciones_medicas {
+  id_atencion int [pk, increment]
+  fecha_hora datetime [not null]
+  diagnostico text
+  costo decimal(10,2) [not null]
+  id_mascota int [not null, ref: > mascotas.id_mascota]
+  id_veterinario int [not null, ref: > veterinarios.id_veterinario]
+}
+
+Table medicamentos {
+  id_medicamento int [pk, increment]
+  codigo varchar(20) [unique, not null]
+  nombre_comercial varchar(100) [not null]
+  laboratorio varchar(100)
+  precio_unitario decimal(10,2) [not null]
+}
+
+Table prescripciones {
+  id_atencion int [not null, ref: > atenciones_medicas.id_atencion]
+  id_medicamento int [not null, ref: > medicamentos.id_medicamento]
+  cantidad varchar(50) [not null]
+  indicaciones varchar(255) [not null]
+
+  indexes {
+    (id_atencion, id_medicamento) [pk]
+  }
+}
